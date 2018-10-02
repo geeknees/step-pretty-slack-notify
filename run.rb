@@ -116,6 +116,7 @@ failed_message = ENV["WERCKER_PRETTY_SLACK_NOTIFY_FAILED_MESSAGE"] || ""
 icon_url       = "https://secure.gravatar.com/avatar/a08fc43441db4c2df2cef96e0cc8c045?s=140"
 
 username = "Wercker" if username.empty?
+channel  = '#general' if channel.empty?
 abort "Please specify the your slack webhook url" if webhook_url.empty?
 
 build = Build.new
@@ -132,9 +133,10 @@ unless notify_on.empty? || notify_on == build.result
   exit
 end
 
-notifier = Slack::Notifier.new(webhook_url)
-notifier.username = username
-notifier.channel  = '#' + channel unless channel.empty?
+notifier = Slack::Notifier.new(webhook_url) do
+        defaults(channel: channel,
+                username: username)
+end
 
 custom_message = passed_message
 custom_message = failed_message if build.has_failed?
@@ -150,7 +152,7 @@ response = notifier.ping(
   }]
 )
 
-case response.code
+case response.pop.code
 when "404" then abort "Webhook url not found."
 when "500" then abort response.read_body
 else puts "Notified to Slack #{notifier.channel}"

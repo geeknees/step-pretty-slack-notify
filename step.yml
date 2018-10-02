@@ -1,0 +1,29 @@
+name: pretty-slack-notify
+version: 0.0.1
+summary: Posts Wercker build/deploy status to a Slack channel.
+tags:
+  - notification
+  - webhook
+  - slack
+properties:
+- name: webhook_url
+  type: string
+  required: true
+- name: channel
+  type: string
+  required: false
+- name: username
+  type: string
+  required: false
+- name: notify_on
+  type: string
+  required: false
+- name: icon_url
+  type: string
+  required: false
+- name: branches
+  type: string
+  required: false
+- name: passed_message
+  type: string
+  required: false

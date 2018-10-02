@@ -1,5 +1,9 @@
-box: wercker/rvm
+box: ruby:2.5.0
 build:
   steps:
-    - wercker/bundle-install@1.1.1
-    - validate-wercker-step
+    - bundle-install
+
+publish:
+  steps:
+    - internal/publish-step:
+        owner: geeknees
