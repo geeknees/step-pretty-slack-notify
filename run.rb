@@ -155,5 +155,5 @@ response = notifier.ping(
 case response.pop.code
 when "404" then abort "Webhook url not found."
 when "500" then abort response.read_body
-else puts "Notified to Slack #{notifier.channel}"
+else puts "Notified to Slack #{channel}"
 end
